@@ -40,3 +40,6 @@ C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\Game\obj\Debug\Ma
 C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\Game\obj\Debug\CatchGame.g.resources
 C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\Game\obj\Debug\CatchGame.Properties.Resources.resources
 C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\Game\obj\Debug\Game.csproj.GenerateResource.Cache
+C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\bin\Debug\CatchGame.exe.config
+C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\obj\Debug\CatchGame.exe
+C:\Users\Usuari1\Documents\GitHub\M09-UF3_Practica_1\Game\Game\obj\Debug\CatchGame.pdb

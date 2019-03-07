@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{614A5750-E2B3-4ABF-B939-F27D4CCABB02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PositionLibrary", "PositionLibrary\PositionLibrary.csproj", "{A514A4AA-E0BF-4EBD-B674-5F2D8EA43D8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sim", "Sim\Sim.csproj", "{5DBE28A9-7D65-4F46-BFC5-74EF0FE5626F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{614A5750-E2B3-4ABF-B939-F27D4CCABB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{614A5750-E2B3-4ABF-B939-F27D4CCABB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{614A5750-E2B3-4ABF-B939-F27D4CCABB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A514A4AA-E0BF-4EBD-B674-5F2D8EA43D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A514A4AA-E0BF-4EBD-B674-5F2D8EA43D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A514A4AA-E0BF-4EBD-B674-5F2D8EA43D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A514A4AA-E0BF-4EBD-B674-5F2D8EA43D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBE28A9-7D65-4F46-BFC5-74EF0FE5626F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBE28A9-7D65-4F46-BFC5-74EF0FE5626F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBE28A9-7D65-4F46-BFC5-74EF0FE5626F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBE28A9-7D65-4F46-BFC5-74EF0FE5626F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

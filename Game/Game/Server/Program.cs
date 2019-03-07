@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PositionLibrary;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,59 +11,61 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    // Creem la classe Player on li possem com a paràmetres un Id, un NetworkStream i una Posició associada
+    // Creamos la clase Player donde le ponemos como parámetros un Id, un NetworkStream y una posición asociada
     class Player
     {
-        public int idJugador { get; set; }
-        public NetworkStream networkStream { get; set; }
+        public int IdJugador { get; set; }
+        public NetworkStream NetworkStream { get; set; }
+        public Position Position { get; set; }
 
-        public Player(int idJugador, NetworkStream networkStream)
+        public Player(int IdJugador, NetworkStream NetworkStream)
         {
-            this.idJugador = idJugador;
-            this.networkStream = networkStream;
+            this.IdJugador = IdJugador;
+            this.NetworkStream = NetworkStream;
         }
     }
 
     class Program
     {
-        private static IPAddress serverIp;
-        private static int currentNumOfPlayers = 0;
+        private static IPAddress ServerIp;
+        private static int CurrentNumOfPlayers = 0;
         private static readonly object locker = new object();
         private static List<Player> players = new List<Player>();
 
         static void Main(string[] args)
         {
-            // Iniciem el servidor amb una Ip i un Port
+            // Iniciamos el servidor con una Ip y un puerto
             int serverPort = 50000;
-            serverIp = IPAddress.Parse("127.0.0.1");
+            ServerIp = IPAddress.Parse("127.0.0.1");
 
-            TcpListener server = new TcpListener(serverIp, serverPort);
-            Console.WriteLine("Server has been created");
+            TcpListener server = new TcpListener(ServerIp, serverPort);
+            Console.WriteLine("El servidor ha sido creado");
 
             server.Start();
-            Console.WriteLine("Server started");
+            Console.WriteLine("Servidor iniciado");
 
-            // Creem un bucle infinit com a listener per acceptar connexions entrants de clients (Game)
+            // Creamos un bucle infinito como listener para aceptar conexiones entrantes de clientes (Game)
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine("Client connected");
+                Console.WriteLine("Cliente conectado");
 
-                Thread clientThread = new Thread(serverResponse);
+                // Iniciamos un hilo que se encargará de enviar los datos correspondientes a cada jugador que esté conectado mediante el método ServerResponse
+                Thread clientThread = new Thread(ServerResponse);
                 clientThread.Start(client);
             }
         }
 
-        static void serverResponse(Object o)
+        static void ServerResponse(Object o)
         {
             NetworkStream serverNs = null;
             TcpClient client = (TcpClient)o;
 
             try
             {
-                // Primerament generem un objecte jugador associat al client que es connecti i li enviem les dades generades, en aquest cas, la seva Id associada
+                // Primeramente generamos un objeto jugador asociado al cliente que se conecte y le enviamos los datos generados, en este caso, su Id asociada
                 serverNs = client.GetStream();
-                string generatedIdString = generatePlayer(serverNs).ToString();
+                string generatedIdString = GeneratePlayer(serverNs).ToString();
 
                 byte[] idBytes = Encoding.UTF8.GetBytes(generatedIdString);
 
@@ -72,49 +75,54 @@ namespace Server
             {
                 serverNs.Close();
                 client.Close();
-
-                Console.WriteLine("Hi ha hagut un error amb la connexió");
+                //Manejamos el error si la conexion no ha sido posible
+                Console.WriteLine("Ha habido un error con la conexion");
             }
 
             if (serverNs != null)
             {
                 while (true)
                 {
+                    // Si el NetworkStream del server no es null, creamos un bucle infinito que se encarga de ir escuchando los datos de los jugadores conectados y reenviarlo a todos los demás
                     byte[] localBuffer = new byte[256];
                     int receivedBytes = serverNs.Read(localBuffer, 0, localBuffer.Length);
 
-                    String receivedFrasePl = "";
-                    receivedFrasePl = Encoding.UTF8.GetString(localBuffer, 0, receivedBytes);
+                    // Los datos que envía un Jugador será la posición de su bola, si lo queremos mostrar por la consola del server, necesitamos Deserialitzar el objeto recibido y acceder a sus atributos
+                    Position receivedPosition;
+                    receivedPosition = (Position)Position.Deserialize(localBuffer);
 
-                    Console.WriteLine(receivedFrasePl);
+                    Console.WriteLine(receivedPosition.posX);
+                    Console.WriteLine(receivedPosition.posY);
 
+                    // Para reenviar la posición a los demás jugadores excepto el cliente origen, hacemos un recorrido de la lista de Jugadores y enviamos la posición a todos los jugadores que tengan un
+                    // NetworkStream diferente al del origen
                     for (int i = 0; i < players.Count; i++)
                     {
                         Player player = players[i];
 
-                        if (player.networkStream != serverNs)
+                        if (player.NetworkStream != serverNs)
                         {
-                            player.networkStream.Write(localBuffer, 0, receivedBytes);
+                            player.NetworkStream.Write(localBuffer, 0, receivedBytes);
                         }
                     }
                 }
             }
         }
 
-        static int generatePlayer(NetworkStream clientNs)
+        static int GeneratePlayer(NetworkStream clientNs)
         {
             Player player;
 
             lock (locker)
             {
-                // La id del jugador dependrà de la quantitat de jugadors que hi han 
-                // actualment a la llista de Jugadors, això ho controlem amb una variable que s'encarrega de incrementar un valor quan un Jugador es afegit a la llista
-                player = new Player(currentNumOfPlayers, clientNs);
+                // La id del jugador dependera de la cantidad de jugadores que haya
+                // actualmente en la lista de Jugadores, esto lo controlamos con una variable que se encarga de incrementar un valor cuando un Jugador se ha añadido a la lista
+                player = new Player(CurrentNumOfPlayers, clientNs);
                 players.Add(player);
-                currentNumOfPlayers++;
+                CurrentNumOfPlayers++;
             }
 
-            return player.idJugador;
+            return player.IdJugador;
         }
     }
 }

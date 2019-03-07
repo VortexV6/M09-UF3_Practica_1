@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PositionLibrary;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace Client
 {
@@ -14,10 +13,10 @@ namespace Client
         private static IPAddress serverIp;
         private static int clientPort;
         private static int playerId;
+        private static Position position;
 
         static void Main(string[] args)
         {
-
             clientPort = 50000;
             serverIp = IPAddress.Parse("127.0.0.1");
 
@@ -43,6 +42,7 @@ namespace Client
                 responsingThread.Start(clientNs);
             }
         }
+
         static void receiveFromServer(object clientNs)
         {
             NetworkStream current = (NetworkStream)clientNs;
@@ -58,6 +58,7 @@ namespace Client
                 Console.WriteLine(receivedFrase);
             }
         }
+
         static void responseToServer(object clientNs)
         {
             NetworkStream current = (NetworkStream)clientNs;
@@ -70,4 +71,5 @@ namespace Client
         }
     }
 }
+
 

@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace PositionLibrary
 {
-    // Aquesta llibreria serveix per poder instanciar i manipular objectes Position a totes les demes classes de forma generalitzada
-    // Per poder fer funcionar la Serialització necessitem la keyword Serialitzable sobre la creació de la classe
+    // Esta librería sirve para poder instanciar y manipular objetos Position en todas las demás clases de forma generalizada
+    // Para poder hacer funcionar la Serialización necesitamos la keyword Serialitzable sobre la creación de la clase
 
     [Serializable]
     public class Position
@@ -24,7 +24,7 @@ namespace PositionLibrary
             this.posY = posY;
         }
 
-        // Els mètodes Serialize i Deserialize ens permeten passar a binari o a objecte (depenent del que volem fer) la informació de Position
+        // Los métodos Serialize y Deserialize nos permiten pasar a binario o objeto (dependiendo de lo que queremos hacer) la información de Position
 
         public static byte[] Serialize(object obj)
         {
